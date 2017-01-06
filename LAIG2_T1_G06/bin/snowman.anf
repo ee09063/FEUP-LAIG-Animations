@@ -1,0 +1,214 @@
+<anf>
+    <globals>
+        <drawing mode="fill" shading="gouraud" background="0.7 0.7 0.7 1.0" />
+        <culling face="back" order="ccw" />
+        <lighting doublesided="true" local="true" enabled="true" ambient="0.8 0.8 0.8 1.0" />
+    </globals>
+   
+    <cameras initial="perspective_01" >
+        <perspective id="perspective_01" near="5.0" far="50.0" angle="75" pos="15.0 13.0 15.0" target="2.0 2.0 2.0" />
+    </cameras>
+  
+    <lights>
+             <light id="light01" type="omni" enabled="true" pos="4.0 4.0 4.0" marker="true">
+               <component type="ambient" value="1.0 1.0 1.0 1.0" />
+               <component type="diffuse" value="1.0 1.0 1.0 1.0" />
+               <component type="specular" value="1.0 1.0 1.0 1.0" />
+            </light>
+			
+			<light id="light02" type="omni" enabled="true" pos="12.0 4.0 12.0" marker="true">
+               <component type="ambient" value="0.8 0.8 0.8 1.0" />
+               <component type="diffuse" value="0.8 0.8 0.8 1.0" />
+               <component type="specular" value="0.8 0.8 0.8 1.0" />
+            </light>
+			
+			<light id="spotlight_01" type="spot" enabled="false" marker="true" pos="1.0 8.0 1.0" target="4.0 4.0 4.0"  
+                angle="90.0" exponent="1.0" >
+			   <component type="ambient" value="0.7 0.7 0.7 1.0" />
+               <component type="diffuse" value="0.7 0.7 0.7 1.0" />
+               <component type="specular" value="0.7 0.7 0.7 1.0" />
+            </light>
+    </lights>
+
+    <textures>       
+		<texture id="globe" file="globe.jpg" texlength_s="1.0" texlength_t="1.0" />
+		<texture id="snow" file="snow.jpg" texlength_s="4.0" texlength_t="4.0" />
+    </textures>
+
+    <appearances>
+		<appearance id="globe" shininess="50.0" textureref="globe">
+               <component type="ambient" value="0.2 0.1 0.07 1.0" />
+               <component type="diffuse" value="0.7 0.6 0.2 1.0" />
+               <component type="specular" value="0.6 0.5 0.3 1.0" />
+        </appearance>
+		<appearance id="gold" shininess="50.0">
+               <component type="ambient" value="0.2 0.1 0.07 1.0" />
+               <component type="diffuse" value="0.7 0.6 0.2 1.0" />
+               <component type="specular" value="0.6 0.5 0.3 1.0" />
+        </appearance>
+		<appearance id="snow" shininess="120.0" textureref="snow" >
+               <component type="ambient" value="0.2 0.2 0.2 1.0" />
+               <component type="diffuse" value="0.4	0.4	0.4 1.0" />
+               <component type="specular" value="0.7 0.7 0.7 1.0" />
+        </appearance>
+    </appearances>
+
+	<animations>
+		<animation id="linear" span="10" type="linear">
+			<controlpoint xx="0.0" yy="0.0" zz="0.0"/>
+			<controlpoint xx="5.0" yy="5.0" zz="5.0"/>
+			<controlpoint xx="10.0" yy="5.0" zz="5.0"/>
+			<controlpoint xx="5.0" yy="5.0" zz="5.0"/>
+			<controlpoint xx="5.0" yy="5.0" zz="10.0"/>
+		</animation>
+		<animation id="circular" span="5" type="circular" center="5 5 5" radius="5" startang="0" rotang="360" />
+	</animations>
+	
+    <graph rootid="root">
+		<node id="root" displaylist="false">
+			<transforms>
+			</transforms>
+			
+			<primitives>
+			</primitives>
+			
+			<descendants>
+				<noderef id="flag" />
+				<noderef id="linear_vehicle" />
+				<noderef id="circular_vehicle"/>
+				<noderef id="snowman"/>
+			</descendants>
+		</node>
+
+		<node id="flag" displaylist="false">
+			<transforms>
+            </transforms>
+			<primitives>
+				<flag texture="globe.jpg"/>
+			</primitives>	
+			<descendants>
+            </descendants>
+		</node>
+
+		<node id="linear_vehicle" displaylist="false">
+			<animations>
+				<animation id="linear"/>
+				<animation id="circular"/>
+			</animations>
+			
+			<transforms>
+				<transform type="scale" factor="2.0 2.0 2.0"/>
+			</transforms>
+			
+			<primitives>	
+			</primitives>
+			
+			<descendants>
+				<noderef id="vehicle" />
+            </descendants>
+		</node>
+		
+		<node id="vehicle" displaylist="true">
+			
+			<transforms>
+            </transforms>
+			
+			<appearanceref id="globe" />
+			
+			<primitives>
+				<vehicle />
+			</primitives>
+			
+			<descendants>
+            </descendants>
+		</node>
+		<node id="circular_vehicle" displaylist="false">
+			<animations>
+				<animation id="circular"/>
+				<animation id="linear"/>
+			</animations>
+			
+			<transforms>
+				<transform type="scale" factor="2.0 2.0 2.0"/>
+			</transforms>
+			
+			<primitives>	
+			</primitives>
+			
+			<descendants>
+				<noderef id="vehicle2" />
+            </descendants>
+		</node>
+		
+		<node id="vehicle2" displaylist="true">
+			
+			<transforms>
+            </transforms>
+			
+			<appearanceref id="globe" />
+			
+			<primitives>
+				<vehicle />
+			</primitives>
+			
+			<descendants>
+            </descendants>
+		</node>
+		
+		<node id="snowman" displaylist="true">
+			<transforms>
+				<transform type="translate" to="10.0 0.0 0.0"/>
+				<transform type="scale" factor="0.75 0.75 0.75"/>
+			</transforms>
+			<appearanceref id="snow" />
+			<descendants>
+                <noderef id="legs"/>
+				<noderef id="body"/>
+				<noderef id="head"/>
+            </descendants>
+		</node>
+		
+		<node id="legs">
+			<transforms>
+				<transform type="translate" to="0.0 2.0 0.0"/>
+			</transforms>
+			<appearanceref id="inherit" />
+			<primitives>        
+				<sphere radius="2.0" slices="20.0" stacks="20.0" />
+            </primitives>
+		</node>
+		
+		<node id="body">
+			<transforms>
+				<transform type="translate" to="0.0 5.25 0.0"/>
+			</transforms>
+			<appearanceref id="inherit" />
+			<primitives>
+				<sphere radius="1.5" slices="20.0" stacks="20.0" />
+			</primitives>
+		</node>
+		
+		<node id="head">
+			<transforms>
+				<transform type="translate" to="0.0 7.5 0.0"/>
+			</transforms>
+			<appearanceref id="inherit" />
+			<primitives>
+				<sphere radius="1.0" slices="20.0" stacks="20.0" />
+			</primitives>
+			<descendants>
+				<noderef id="nose"/>
+			</descendants>
+		</node>
+		
+		<node id="nose">
+			<transforms>
+				<transform type="translate" to="0.0 0.0 0.0"/>
+			</transforms>
+			<appearanceref id="gold"/>
+			<primitives>
+				<cylinder base="0.5" top="0.0" height="2.0" slices="20.0" stacks="5" />
+			</primitives>
+		</node>
+    </graph>
+</anf>
